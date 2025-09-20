@@ -6,41 +6,35 @@ async function createProfile() {
     responseDiv.textContent = 'Creating profile...';
 
     const data = {
-        "username":username, 
-        "password":String(hashPasswordSHA256(password)),
+        "username": username,
+        "password": String(await hashPasswordSHA256(password)),  // Await hash
         "name": name
-    } // Convert to plain object for JSON
+    };
 
     try {
         const response = await fetch('http://127.0.0.1:5000/create_profile', {
-        method: 'POST',
-        headers: {
-                'Content-Type': 'application/json' // Specify content type for JSON
-        },
-        body: JSON.stringify(data) // Send data as JSON string
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
 
+        const result = await response.json();
         if (response.ok) {
-            const result = await response.json();
-            responseDiv.textContent = `Server response: ${result.message}, Data: ${JSON.stringify(result.data)}`;
+            responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
         } else {
-            responseDiv.textContent = `Error: ${response.status} - ${response.statusText}`;
+            responseDiv.textContent = `Error: ${result.message}`;
         }
     } catch (error) {
         responseDiv.textContent = `Fetch error: ${error}`;
     }
-    }
+}
 
 async function hashPasswordSHA256(password) {
-  // Encode the password string as a Uint8Array
-  const msgBuffer = new TextEncoder().encode(String(password));
-
-  // Hash the message using SHA-256
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-  // Convert the ArrayBuffer to a hexadecimal string
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-  return hashHex;
+    const msgBuffer = new TextEncoder().encode(String(password));
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
 }

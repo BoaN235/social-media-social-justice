@@ -22,10 +22,20 @@ try:
 
         @app.route('/api/data')
         def get_posts():
-            posts_list = connection.execute("SELECT * FROM Posts;")
-            print(posts_list)
-            data = {posts_list}
-            return jsonify(data)
+            cursor.execute("SELECT * FROM Posts;")
+            posts = cursor.fetchall()
+
+            # Convert fetched rows into a list of dictionaries (for JSON serialization)
+            posts_data = []
+            for post in posts:
+                post_data = {
+                    'id': post[0],  # assuming first column is post ID
+                    'content': post[1],  # assuming second column is content
+                    'created_at': post[2]  # assuming third column is creation timestamp
+                }
+                posts_data.append(post_data)
+
+            return jsonify(posts_data)
 
 
         @app.route('/create_profile', methods=['POST'])
