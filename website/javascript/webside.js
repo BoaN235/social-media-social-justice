@@ -12,7 +12,7 @@ async function createProfile() {
     } // Convert to plain object for JSON
 
     try {
-        const response = await fetch('/http://127.0.0.1:5000/create_profile', {
+        const response = await fetch('http://127.0.0.1:5000/create_profile', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json' // Specify content type for JSON
