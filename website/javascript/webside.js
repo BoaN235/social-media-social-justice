@@ -1,12 +1,14 @@
 async function createProfile() {
     const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const name = document.getElementById('name').value;
     const responseDiv = document.getElementById('response');
     responseDiv.textContent = 'Creating profile...';
 
     const data = {
-        "username":"boan", 
+        "username":username, 
         "password":String(hashPasswordSHA256(password)),
-        "name":"Boa_N",
+        "name": name
     } // Convert to plain object for JSON
 
     try {
