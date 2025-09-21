@@ -19,20 +19,6 @@ try:
 except mysql.connector.Error as err:
     print(f"Error connecting to MySQL: {err}")
 
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    if not username or not password:
-        return jsonify({'message': 'Username and password required', 'data': None}), 400
-    cursor.execute('SELECT ID, Profilename FROM Profiles WHERE Username = %s AND Password = %s', (username, password))
-    result = cursor.fetchone()
-    if result:
-        return jsonify({'message': 'Login successful', 'data': {'id': result[0], 'name': result[1]}}), 200
-    else:
-        return jsonify({'message': 'Invalid username or password', 'data': None}), 401
-
 @app.route('/api/data')
 def get_posts():
     cursor.execute("SELECT * FROM Posts;")
@@ -71,7 +57,7 @@ def create_profile():
             new_id = str(1)
         cursor.execute("INSERT INTO Profiles (Username, Password, Profilename, ID, Timecreated) VALUES (%s, %s, %s, %s, NOW())", (username, password, name, new_id))
         connection.commit()
-        return jsonify({'message': 'Profile created successfully', 'id': new_id}), 201
+        return jsonify({'message': 'Profile created successfully', 'data': {'id': new_id}}), 201
     except mysql.connector.Error as err:
         return jsonify({'message': f'Error: {err}', 'data': None}), 500
 

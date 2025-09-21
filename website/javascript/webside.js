@@ -60,8 +60,9 @@ async function loginProfile() {
         });
         const result = await response.json();
         if (response.ok) {
-            document.cookie = "ID=" + result.data.id;
             responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
+            document.cookie = "ID=" + result.data.id;
+            
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
