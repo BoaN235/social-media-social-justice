@@ -13,7 +13,7 @@ async function createPost() {
         'content': content
     };
     try {
-        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/create_post', {
+        const response = await fetch('https://e42cefdc3e81.ngrok-free.app/create_post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ async function fetchPosts() {
     if (!feedDiv) return;
     feedDiv.innerHTML = 'Loading...';
     try {
-        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/api/data');
+        const response = await fetch('https://e42cefdc3e81.ngrok-free.app/api/data');
         const posts = await response.json();
         if (Array.isArray(posts) && posts.length > 0) {
             feedDiv.innerHTML = posts.map(post => {
@@ -92,7 +92,7 @@ async function createProfile() {
     };
 
     try {
-        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/create_profile', {
+        const response = await fetch('https://e42cefdc3e81.ngrok-free.app/create_profile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ async function loginProfile() {
         "password": String(await hashPasswordSHA256(password))
     };
     try {
-        const response = await fetch('https://a7bdfe72cd69.ngrok-free.applogin', {
+        const response = await fetch('https://e42cefdc3e81.ngrok-free.app/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
