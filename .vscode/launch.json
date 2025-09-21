@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sever/sever.py", // adjust path if needed
+            "console": "integratedTerminal",
+            "env": {
+                "NGROK_AUTHTOKEN": "330LL9yrrAojcLfjSTW4ro3por6_7EKfVJsnDAReZujjFN56v"
+            }
+        }
+    ]
+}

@@ -1,6 +1,9 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import ngrok
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {
@@ -147,4 +150,8 @@ def data_from_id():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Start ngrok tunnel on Flask’s port
+    port = 5000
+    public_url = ngrok.connect(port)  
+    print("🚀 ngrok tunnel URL:", public_url)
+    app.run(port=port, debug=True)
