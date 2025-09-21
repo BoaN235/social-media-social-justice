@@ -21,10 +21,10 @@ async function createProfile() {
         });
 
         const result = await response.json();
-        document.cookie = "ID=" + result.data.id;
-        if (response.ok) {
+        if (response.ok && result.data && result.data.id) {
+            document.cookie = "ID=" + result.data.id;
             responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
-            reloadlog();
+            realoadlogin(); // Reload login state
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -46,7 +46,6 @@ async function loginProfile() {
     const username = document.getElementById('log_username').value;
     const responseDiv = document.getElementById('response');
     responseDiv.textContent = 'Logging in...';
-    reloadlog();
 
     const data = {
         "username": username,
@@ -61,10 +60,10 @@ async function loginProfile() {
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        if (response.ok) {
-            responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
+        if (response.ok && result.data && result.data.id) {
             document.cookie = "ID=" + result.data.id;
-            
+            responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
+            realoadlogin(); // Reload login state
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -89,7 +88,7 @@ async function loginProfile() {
             window.location.href = '/website/Login.html';
           }
         }
-        document.addEventListener('DOMContentLoaded', function reloadlog() {
+        document.addEventListener('DOMContentLoaded', function() {
           const id = getCookie('ID');
           if (id && id.trim() !== "") {
             document.getElementById('loginLogoutBtn').textContent = 'Logout';
@@ -97,3 +96,12 @@ async function loginProfile() {
             document.getElementById('loginLogoutBtn').textContent = 'Login';
           }
         });
+
+        realoadlogin(); {
+        const id = getCookie('ID');
+          if (id && id.trim() !== "") {
+            document.getElementById('loginLogoutBtn').textContent = 'Logout';
+          } else {
+            document.getElementById('loginLogoutBtn').textContent = 'Login';
+          }
+        }
