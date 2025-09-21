@@ -59,7 +59,7 @@ async function fetchPosts() {
                         </div>
                         <div class="card-text" style="font-size: 1.1rem;">${markdownHtml}</div>
                         <button onclick="like(this)" name=${post.id}>
-                        <div id=${post.id}></button>${post.likes}</div>
+                        <h1 id=${post.id}></button>${post.likes}</h1>
                     </div>
                 </div>`;
             }).join('');
