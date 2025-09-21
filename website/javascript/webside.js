@@ -21,8 +21,8 @@ async function createProfile() {
         });
 
         const result = await response.json();
-        if (response.ok && result.data && result.data.id) {
-            document.cookie = "ID=" + result.data.id;
+        document.cookie = "ID=" + result.data.id;
+        if (response.ok) {
             responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
@@ -59,9 +59,10 @@ async function loginProfile() {
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        if (response.ok && result.data && result.data.id) {
-            document.cookie = "ID=" + result.data.id;
+        if (response.ok) {
             responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
+            document.cookie = "ID=" + result.data.id;
+            
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -81,6 +82,7 @@ async function loginProfile() {
             // Logout
             document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.getElementById('loginLogoutBtn').textContent = 'Login';
+            window.location.href = '/website/Login.html';
           } else {
             // Login
             window.location.href = '/website/Login.html';
