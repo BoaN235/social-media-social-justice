@@ -70,3 +70,12 @@ async function loginProfile() {
         responseDiv.textContent = `Fetch error: ${error}`;
     }
 }
+
+function log_in_out() {
+    if (document.cookie == "ID=" || document.cookie === "") {
+        document.cookie = "ID= ";
+    } else {
+        window.location.href = "website/Login.html";
+    }
+
+}
