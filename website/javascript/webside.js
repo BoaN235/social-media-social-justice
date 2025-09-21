@@ -40,17 +40,32 @@ async function hashPasswordSHA256(password) {
     return hashHex;
 }
 
-async function login() {
-    const password = document.getElementById('loginPassword').value;
-    const username = document.getElementById('loginUsername').value;
-    const responseDiv = document.getElementById('loginResponse');
+async function loginProfile() {
+    const password = document.getElementById('log_password').value;
+    const username = document.getElementById('log_username').value;
+    const responseDiv = document.getElementById('response');
     responseDiv.textContent = 'Logging in...';
-    
+
     const data = {
         "username": username,
-        "password": String(await hashPasswordSHA256(password))  // Await hash
+        "password": String(await hashPasswordSHA256(password))
     };
     try {
-        const response = await fetch('http:/')}catch{}}
-
-    document.cookie = "ID=" + result.data.id;
+        const response = await fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok) {
+            document.cookie = "ID=" + result.data.id;
+            responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
+        } else {
+            responseDiv.textContent = `Error: ${result.message}`;
+        }
+    } catch (error) {
+        responseDiv.textContent = `Fetch error: ${error}`;
+    }
+}
