@@ -43,7 +43,12 @@ def create_post():
 
 @app.route('/api/data')
 def get_posts():
-    cursor.execute("SELECT PostID, UserID, PostText, Timecreated FROM Posts;")
+    cursor.execute("""
+        SELECT Posts.PostID, Posts.UserID, Posts.PostText, Posts.Timecreated, Profiles.Username
+        FROM Posts
+        LEFT JOIN Profiles ON Posts.UserID = Profiles.ID
+        ORDER BY Posts.Timecreated DESC;
+    """)
     posts = cursor.fetchall()
     posts_data = []
     for post in posts:
@@ -51,7 +56,8 @@ def get_posts():
             'id': post[0],
             'user_id': post[1],
             'content': post[2],
-            'created_at': str(post[3])
+            'created_at': str(post[3]),
+            'username': post[4] if post[4] else 'User'
         }
         posts_data.append(post_data)
     return jsonify(posts_data)

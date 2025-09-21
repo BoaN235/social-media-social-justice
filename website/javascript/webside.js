@@ -42,8 +42,10 @@ async function fetchPosts() {
         const response = await fetch('http://127.0.0.1:5000/api/data');
         const posts = await response.json();
         if (Array.isArray(posts) && posts.length > 0) {
-            feedDiv.innerHTML = posts.map(post =>
-                `<div class="card shadow-sm mb-3">
+            feedDiv.innerHTML = posts.map(post => {
+                // Render post.content as Markdown using marked()
+                const markdownHtml = window.marked ? marked.parse(post.content) : post.content;
+                return `<div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2">
                             <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center me-2" style="width: 40px; height: 40px; font-weight: bold; font-size: 1.2rem;">
@@ -54,10 +56,10 @@ async function fetchPosts() {
                                 <small class="text-muted">${post.created_at}</small>
                             </div>
                         </div>
-                        <p class="card-text" style="font-size: 1.1rem;">${post.content}</p>
+                        <div class="card-text" style="font-size: 1.1rem;">${markdownHtml}</div>
                     </div>
-                </div>`
-            ).join('');
+                </div>`;
+            }).join('');
         } else {
             feedDiv.innerHTML = '<p>No posts yet.</p>';
         }
