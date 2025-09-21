@@ -38,7 +38,6 @@ async function fetchPosts() {
     const feedDiv = document.getElementById('postFeed');
     if (!feedDiv) return;
     feedDiv.innerHTML = 'Loading...';
-    console.log("loading")
     try {
         const response = await fetch('https://e42cefdc3e81.ngrok-free.app/api/data');
         const posts = await response.json();
