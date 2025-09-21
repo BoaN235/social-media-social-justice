@@ -29,7 +29,7 @@ def create_post():
         return jsonify({'message': 'User ID and content required', 'data': None}), 400
     try:
         # Get the latest post ID
-        cursor.execute('SELECT ID FROM Posts ORDER BY ID DESC LIMIT 1;')
+        cursor.execute('SELECT PostID FROM Posts ORDER BY PostID DESC LIMIT 1;')
         result = cursor.fetchone()
         if result and result[0] is not None:
             new_post_id = str(int(result[0]) + 1)
@@ -43,14 +43,15 @@ def create_post():
 
 @app.route('/api/data')
 def get_posts():
-    cursor.execute("SELECT * FROM Posts;")
+    cursor.execute("SELECT PostID, UserID, PostText, Timestamp FROM Posts;")
     posts = cursor.fetchall()
     posts_data = []
     for post in posts:
         post_data = {
             'id': post[0],
-            'content': post[1],
-            'created_at': post[2]
+            'user_id': post[1],
+            'content': post[2],
+            'created_at': str(post[3])
         }
         posts_data.append(post_data)
     return jsonify(posts_data)
