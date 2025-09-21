@@ -13,7 +13,7 @@ async function createPost() {
         'content': content
     };
     try {
-        const response = await fetch('http://127.0.0.1:5000/create_post', {
+        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/create_post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ async function fetchPosts() {
     if (!feedDiv) return;
     feedDiv.innerHTML = 'Loading...';
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/data');
+        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/api/data');
         const posts = await response.json();
         if (Array.isArray(posts) && posts.length > 0) {
             feedDiv.innerHTML = posts.map(post => {
@@ -92,7 +92,7 @@ async function createProfile() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/create_profile', {
+        const response = await fetch('https://a7bdfe72cd69.ngrok-free.app/create_profile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ async function loginProfile() {
         "password": String(await hashPasswordSHA256(password))
     };
     try {
-        const response = await fetch('http://127.0.0.1:5000/login', {
+        const response = await fetch('https://a7bdfe72cd69.ngrok-free.applogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -160,7 +160,7 @@ async function loginProfile() {
           const id = getCookie('ID');
           if (id && id.trim() !== "") {
             // Logout
-            document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "ID= ";
             document.getElementById('loginLogoutBtn').textContent = 'Login';
             window.location.href = '/website/Login.html';
           } else {
