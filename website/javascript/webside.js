@@ -24,6 +24,7 @@ async function createProfile() {
         document.cookie = "ID=" + result.data.id;
         if (response.ok) {
             responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
+            reloadlog();
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -45,6 +46,7 @@ async function loginProfile() {
     const username = document.getElementById('log_username').value;
     const responseDiv = document.getElementById('response');
     responseDiv.textContent = 'Logging in...';
+    reloadlog();
 
     const data = {
         "username": username,
@@ -87,7 +89,7 @@ async function loginProfile() {
             window.location.href = '/website/Login.html';
           }
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function reloadlog() {
           const id = getCookie('ID');
           if (id && id.trim() !== "") {
             document.getElementById('loginLogoutBtn').textContent = 'Logout';
