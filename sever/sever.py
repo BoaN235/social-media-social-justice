@@ -28,9 +28,16 @@ def create_post():
     if not user_id or not content:
         return jsonify({'message': 'User ID and content required', 'data': None}), 400
     try:
-        cursor.execute('INSERT INTO Posts (UserID, Content, Created_at) VALUES (%s, %s, NOW())', (user_id, content))
+        # Get the latest post ID
+        cursor.execute('SELECT ID FROM Posts ORDER BY ID DESC LIMIT 1;')
+        result = cursor.fetchone()
+        if result and result[0] is not None:
+            new_post_id = str(int(result[0]) + 1)
+        else:
+            new_post_id = str(1)
+        cursor.execute('INSERT INTO Posts (ID, UserID, Content, Created_at) VALUES (%s, %s, %s, NOW())', (new_post_id, user_id, content))
         connection.commit()
-        return jsonify({'message': 'Post created successfully', 'data': None}), 201
+        return jsonify({'message': 'Post created successfully', 'data': {'id': new_post_id}}), 201
     except mysql.connector.Error as err:
         return jsonify({'message': f'Error: {err}', 'data': None}), 500
 

@@ -43,7 +43,20 @@ async function fetchPosts() {
         const posts = await response.json();
         if (Array.isArray(posts) && posts.length > 0) {
             feedDiv.innerHTML = posts.map(post =>
-                `<div class="card mb-2"><div class="card-body"><p class="card-text">${post.content}</p><small class="text-muted">${post.created_at}</small></div></div>`
+                `<div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center me-2" style="width: 40px; height: 40px; font-weight: bold; font-size: 1.2rem;">
+                                <span>${post.username ? post.username.charAt(0).toUpperCase() : '?'}</span>
+                            </div>
+                            <div>
+                                <span class="fw-bold">${post.username ? post.username : 'User'}</span><br>
+                                <small class="text-muted">${post.created_at}</small>
+                            </div>
+                        </div>
+                        <p class="card-text" style="font-size: 1.1rem;">${post.content}</p>
+                    </div>
+                </div>`
             ).join('');
         } else {
             feedDiv.innerHTML = '<p>No posts yet.</p>';
