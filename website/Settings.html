@@ -39,17 +39,21 @@
       </nav>
     <h1>Account Settings</h1>
     
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" placeholder="Set your name">
-    </div>
-    <div>
+    <div class="container text-center">
+      <div class="col">
+        <div class="row">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" placeholder="Set your name">
+        </div>
+        <div class="row">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" placeholder="Set your username">
-    </div>
-    <div>
+        </div>
+        <div class="row">
       <label for="password">Password:</label>
       <input type="text" id="password" name="password" placeholder="Set your password">
+        </div>
+      </div>
     </div>
     <p>Account type (Advisor or Supporter)</p>
     <input type="radio" id="advisor" name="type" value="ADVISOR">
@@ -57,10 +61,10 @@
     <input type="radio" id="supporter" name="type" value="SUPPORTER">
     <label for="supporter">Supporter</label><br>
 
-    <p>You can choose to make your account public or private.</p>
+    <!--<p>You can choose to make your account public or private.</p>
     <input type="radio" id="public" name="privacy" value="PUBLIC">
     <label for="public">Public</label><br>
     <input type="radio" id="private" name="privacy" value="PRIVATE">
-    <label for="private">Private</label><br>
+    <label for="private">Private</label><br>-->
   </body>
 </html>
