@@ -1,3 +1,57 @@
+// Create a new post
+async function createPost() {
+    const content = document.getElementById('postContent').value;
+    const responseDiv = document.getElementById('postResponse');
+    responseDiv.textContent = 'Posting...';
+    const id = getCookie('ID');
+    if (!id) {
+        responseDiv.textContent = 'You must be logged in to post.';
+        return;
+    }
+    const data = {
+        'user_id': id,
+        'content': content
+    };
+    try {
+        const response = await fetch('http://127.0.0.1:5000/create_post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok) {
+            responseDiv.textContent = 'Post created!';
+            document.getElementById('postContent').value = '';
+            fetchPosts();
+        } else {
+            responseDiv.textContent = `Error: ${result.message}`;
+        }
+    } catch (error) {
+        responseDiv.textContent = `Fetch error: ${error}`;
+    }
+}
+
+// Fetch and display posts
+async function fetchPosts() {
+    const feedDiv = document.getElementById('postFeed');
+    if (!feedDiv) return;
+    feedDiv.innerHTML = 'Loading...';
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/data');
+        const posts = await response.json();
+        if (Array.isArray(posts) && posts.length > 0) {
+            feedDiv.innerHTML = posts.map(post =>
+                `<div class="card mb-2"><div class="card-body"><p class="card-text">${post.content}</p><small class="text-muted">${post.created_at}</small></div></div>`
+            ).join('');
+        } else {
+            feedDiv.innerHTML = '<p>No posts yet.</p>';
+        }
+    } catch (error) {
+        feedDiv.innerHTML = `<p>Fetch error: ${error}</p>`;
+    }
+}
 async function createProfile() {
     const password = document.getElementById('password').value;
     const username = document.getElementById('username').value;

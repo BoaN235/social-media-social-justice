@@ -19,6 +19,21 @@ try:
 except mysql.connector.Error as err:
     print(f"Error connecting to MySQL: {err}")
 
+# Create a new post
+@app.route('/create_post', methods=['POST'])
+def create_post():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    content = data.get('content')
+    if not user_id or not content:
+        return jsonify({'message': 'User ID and content required', 'data': None}), 400
+    try:
+        cursor.execute('INSERT INTO Posts (UserID, Content, Created_at) VALUES (%s, %s, NOW())', (user_id, content))
+        connection.commit()
+        return jsonify({'message': 'Post created successfully', 'data': None}), 201
+    except mysql.connector.Error as err:
+        return jsonify({'message': f'Error: {err}', 'data': None}), 500
+
 @app.route('/api/data')
 def get_posts():
     cursor.execute("SELECT * FROM Posts;")
