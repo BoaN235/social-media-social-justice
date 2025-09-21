@@ -47,7 +47,7 @@ def create_post():
     except mysql.connector.Error as err:
         return jsonify({'message': f'Error: {err}', 'data': None}), 500
 
-@app.route('/api/data')
+@app.route('/api/data', methods=['GET'])
 def get_posts():
     cursor = connection.cursor()  # create a fresh cursor
     cursor.execute("""
