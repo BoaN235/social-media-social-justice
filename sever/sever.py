@@ -35,7 +35,7 @@ def create_post():
             new_post_id = str(int(result[0]) + 1)
         else:
             new_post_id = str(1)
-        cursor.execute('INSERT INTO Posts (ID, UserID, Content, Created_at) VALUES (%s, %s, %s, NOW())', (new_post_id, user_id, content))
+        cursor.execute('INSERT INTO Posts (PostID, UserID, PostText, Timestamp) VALUES (%s, %s, %s, NOW())', (new_post_id, user_id, content))
         connection.commit()
         return jsonify({'message': 'Post created successfully', 'data': {'id': new_post_id}}), 201
     except mysql.connector.Error as err:
