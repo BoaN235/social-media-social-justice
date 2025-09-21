@@ -35,7 +35,7 @@ def create_post():
             new_post_id = str(int(result[0]) + 1)
         else:
             new_post_id = str(1)
-        cursor.execute('INSERT INTO Posts (PostID, UserID, PostText, Timestamp) VALUES (%s, %s, %s, NOW())', (new_post_id, user_id, content))
+        cursor.execute('INSERT INTO Posts (PostID, UserID, PostText, Timecreated) VALUES (%s, %s, %s, NOW())', (new_post_id, user_id, content))
         connection.commit()
         return jsonify({'message': 'Post created successfully', 'data': {'id': new_post_id}}), 201
     except mysql.connector.Error as err:
@@ -43,7 +43,7 @@ def create_post():
 
 @app.route('/api/data')
 def get_posts():
-    cursor.execute("SELECT PostID, UserID, PostText, Timestamp FROM Posts;")
+    cursor.execute("SELECT PostID, UserID, PostText, Timecreated FROM Posts;")
     posts = cursor.fetchall()
     posts_data = []
     for post in posts:
