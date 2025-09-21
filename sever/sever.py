@@ -49,8 +49,9 @@ def create_post():
 
 @app.route('/api/data')
 def get_posts():
+    cursor = connection.cursor()  # create a fresh cursor
     cursor.execute("""
-        SELECT Posts.PostID, Posts.UserID, Posts.PostText, Posts.Timecreated, Profiles.Username
+        SELECT Posts.PostID, Posts.UserID, Posts.PostText, Posts.Timecreated, Profiles.Username , Posts.Likes
         FROM Posts
         LEFT JOIN Profiles ON Posts.UserID = Profiles.ID
         ORDER BY Posts.Timecreated DESC;
@@ -63,10 +64,13 @@ def get_posts():
             'user_id': post[1],
             'content': post[2],
             'created_at': str(post[3]),
-            'username': post[4] if post[4] else 'User'
+            'username': post[4] if post[4] else 'User',
+            'likes': post[5] if post[5] else 0
         }
         posts_data.append(post_data)
+
     return jsonify(posts_data)
+
 
 @app.route('/create_profile', methods=['POST'])
 def create_profile():

@@ -38,10 +38,11 @@ async function fetchPosts() {
     const feedDiv = document.getElementById('postFeed');
     if (!feedDiv) return;
     feedDiv.innerHTML = 'Loading...';
+    console.log("loading")
     try {
         const response = await fetch('https://e42cefdc3e81.ngrok-free.app/api/data');
         const posts = await response.json();
-        print(posts)
+        console.log(posts)
         if (Array.isArray(posts) && posts.length > 0) {
             feedDiv.innerHTML = posts.map(post => {
                 // Render post.content as Markdown using marked()
@@ -58,6 +59,8 @@ async function fetchPosts() {
                             </div>
                         </div>
                         <div class="card-text" style="font-size: 1.1rem;">${markdownHtml}</div>
+
+                        <div>${post.likes}</div>
                     </div>
                 </div>`;
             }).join('');
