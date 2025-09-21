@@ -5,10 +5,21 @@ async function createProfile() {
     const responseDiv = document.getElementById('response');
     responseDiv.textContent = 'Creating profile...';
 
+    // Get account type from radio buttons
+    let type = null;
+    const advisorRadio = document.getElementById('advisor');
+    const supporterRadio = document.getElementById('supporter');
+    if (advisorRadio && advisorRadio.checked) {
+        type = 'ADVISOR';
+    } else if (supporterRadio && supporterRadio.checked) {
+        type = 'SUPPORTER';
+    }
+
     const data = {
         "username": username,
-        "password": String(await hashPasswordSHA256(password)),  // Await hash
-        "name": name
+        "password": String(await hashPasswordSHA256(password)),
+        "name": name,
+        "type": type
     };
 
     try {

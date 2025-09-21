@@ -39,6 +39,16 @@ def create_profile():
     username = data.get('username')
     password = data.get('password')
     name = data.get('name')
+    account_type = data.get('type')
+    # Advisor = True, Supporter = False
+    justice = None
+    if account_type == 'ADVISOR':
+        justice = True
+    elif account_type == 'SUPPORTER':
+        justice = False
+    else:
+        return jsonify({'message': 'Account type required (Advisor or Supporter)', 'data': None}), 400
+
     if not username or not password:
         return jsonify({'message': 'Username and password required', 'data': None}), 400
     cursor.execute('SELECT 1 FROM Profiles WHERE Username = %s', (username,))
@@ -55,7 +65,7 @@ def create_profile():
             new_id = str(int(result[0]) + 1)
         else:
             new_id = str(1)
-        cursor.execute("INSERT INTO Profiles (Username, Password, Profilename, ID, Timecreated) VALUES (%s, %s, %s, %s, NOW())", (username, password, name, new_id))
+        cursor.execute("INSERT INTO Profiles (Username, Password, Profilename, ID, Timecreated, justice) VALUES (%s, %s, %s, %s, NOW(), %s)", (username, password, name, new_id, justice))
         connection.commit()
         return jsonify({'message': 'Profile created successfully', 'data': {'id': new_id}}), 201
     except mysql.connector.Error as err:
