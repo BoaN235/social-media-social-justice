@@ -41,6 +41,7 @@ async function fetchPosts() {
     try {
         const response = await fetch('https://e42cefdc3e81.ngrok-free.app/api/data');
         const posts = await response.json();
+        print(posts)
         if (Array.isArray(posts) && posts.length > 0) {
             feedDiv.innerHTML = posts.map(post => {
                 // Render post.content as Markdown using marked()
