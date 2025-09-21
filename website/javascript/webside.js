@@ -24,7 +24,6 @@ async function createProfile() {
         if (response.ok && result.data && result.data.id) {
             document.cookie = "ID=" + result.data.id;
             responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
-            realoadlogin(); // Reload login state
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -63,7 +62,6 @@ async function loginProfile() {
         if (response.ok && result.data && result.data.id) {
             document.cookie = "ID=" + result.data.id;
             responseDiv.textContent = `Login successful: ${JSON.stringify(result.data)}`;
-            realoadlogin(); // Reload login state
         } else {
             responseDiv.textContent = `Error: ${result.message}`;
         }
@@ -96,12 +94,3 @@ async function loginProfile() {
             document.getElementById('loginLogoutBtn').textContent = 'Login';
           }
         });
-
-        realoadlogin(); {
-        const id = getCookie('ID');
-          if (id && id.trim() !== "") {
-            document.getElementById('loginLogoutBtn').textContent = 'Logout';
-          } else {
-            document.getElementById('loginLogoutBtn').textContent = 'Login';
-          }
-        }
