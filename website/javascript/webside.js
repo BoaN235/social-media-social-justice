@@ -33,7 +33,7 @@ async function createPost() {
     }
 }
 
-// Fetch and display posts
+// Fetch and dispelay posts
 async function fetchPosts() {
     const feedDiv = document.getElementById('postFeed');
     if (!feedDiv) return;
