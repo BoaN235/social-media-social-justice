@@ -21,6 +21,7 @@ async function createProfile() {
         });
 
         const result = await response.json();
+        document.cookie = "ID=" + result.data.id;
         if (response.ok) {
             responseDiv.textContent = `Profile created successfully: ${JSON.stringify(result.data)}`;
         } else {
@@ -38,3 +39,18 @@ async function hashPasswordSHA256(password) {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
+
+async function login() {
+    const password = document.getElementById('loginPassword').value;
+    const username = document.getElementById('loginUsername').value;
+    const responseDiv = document.getElementById('loginResponse');
+    responseDiv.textContent = 'Logging in...';
+    
+    const data = {
+        "username": username,
+        "password": String(await hashPasswordSHA256(password))  // Await hash
+    };
+    try {
+        const response = await fetch('http:/')}catch{}}
+
+    document.cookie = "ID=" + result.data.id;

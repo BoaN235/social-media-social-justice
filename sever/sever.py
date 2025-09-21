@@ -46,25 +46,25 @@ try:
             name = data.get('name')
             if not username or not password:
                 return jsonify({'message': 'Username and password required', 'data': None}), 400
-            cursor.execute('SELECT 1 FROM Users WHERE Username = %s', (username,))
+            cursor.execute('SELECT 1 FROM Profiles WHERE Username = %s', (username,))
             if cursor.fetchone():
                 return jsonify({'message': 'Username already exists', 'data': None}), 409
             if name:
-                cursor.execute('SELECT 1 FROM Users WHERE Profilename = %s', (name,))
+                cursor.execute('SELECT 1 FROM Profiles WHERE Profilename = %s', (name,))
                 if cursor.fetchone():
                     return jsonify({'message': 'Profile name already exists', 'data': None}), 409
 
             try:
-                cursor.execute('SELECT ID FROM Users ORDER BY ID DESC LIMIT 1;')
+                cursor.execute('SELECT ID FROM Profiles ORDER BY ID DESC LIMIT 1;')
                 result = cursor.fetchone()
                 if result and result[0] is not None:
-                    new_id = result[0] + 1
+                    new_id = str(int(result[0]) + 1)
                 else:
-                    new_id = 1
+                    new_id = str(1)
 
-                cursor.execute("INSERT INTO Users (Username, Password, Profilename, ID) VALUES (%s, %s, %s, %s)", (username, password, name, new_id))
+                cursor.execute("INSERT INTO Profiles (Username, Password, Profilename, ID, Timecreated) VALUES (%s, %s, %s, %s, NOW())", (username, password, name, new_id))
                 connection.commit()
-                return jsonify({'message': 'Profile created successfully', 'data': {'username': username, 'id': new_id}}), 201
+                return jsonify({'message': 'Profile created successfully',}), 201
             except mysql.connector.Error as err:
                 return jsonify({'message': f'Error: {err}', 'data': None}), 500
 

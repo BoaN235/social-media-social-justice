@@ -8,11 +8,29 @@
   </head>
   <body>
     <h1>Account Settings</h1>
-    <p>Name: </p>
-    <p>Email: </p>
-    <p>Account type (Advisor or Supporter)</p>
     
+    <p>Name:</p>
+    <label for="name">Username:</label>
+    <input type="text" id="name" name="name" placeholder="Set your name">
+    <p>Username:</p>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" placeholder="Set your username">
+    <p>Password:</p>
+    <label for="password">Username:</label>
+    <input type="text" id="password" name="password" placeholder="Set your password">
+
+    <p>Account type (Advisor or Supporter)</p>
+    <input type="radio" id="advisor" name="type" value="ADVISOR">
+    <label for="advisor">Advisor</label><br>
+    <input type="radio" id="supporter" name="type" value="SUPPORTER">
+    <label for="supporter">Supporter</label><br>
+
     <p>You can choose to make your account public or private.</p>
+    <input type="radio" id="public" name="privacy" value="PUBLIC">
+    <label for="public">Public</label><br>
+    <input type="radio" id="private" name="privacy" value="PRIVATE">
+    <label for="private">Private</label><br>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
