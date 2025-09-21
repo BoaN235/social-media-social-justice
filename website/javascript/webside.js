@@ -82,7 +82,6 @@ async function loginProfile() {
             // Logout
             document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.getElementById('loginLogoutBtn').textContent = 'Login';
-            window.location.href = '/website/Login.html';
           } else {
             // Login
             window.location.href = '/website/Login.html';
