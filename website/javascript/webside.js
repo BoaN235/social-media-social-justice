@@ -181,7 +181,7 @@ async function loginProfile() {
           }
         });
 
-        function like(element) 
+        async function like(element) 
         {
             data = {"id": element.name, "user_id": document.cookie.split('=')[1]}
             try {
