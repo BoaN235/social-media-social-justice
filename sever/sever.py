@@ -3,7 +3,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, origins=['https://dia-social-justice.vercel.app'])
+CORS(app, resources={r"/*": {
+    "origins": "*",   # 🔓 any origin allowed
+    "allow_headers": ["Content-Type", "Authorization"],
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "supports_credentials": True
+}})
 
 
 

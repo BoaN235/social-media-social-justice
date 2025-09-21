@@ -160,7 +160,8 @@ async function loginProfile() {
           const id = getCookie('ID');
           if (id && id.trim() !== "") {
             // Logout
-            document.cookie = "ID= ";
+            document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
             document.getElementById('loginLogoutBtn').textContent = 'Login';
             window.location.href = '/website/Login.html';
           } else {
