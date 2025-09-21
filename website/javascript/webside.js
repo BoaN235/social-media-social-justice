@@ -59,7 +59,7 @@ async function fetchPosts() {
                         </div>
                         <div class="card-text" style="font-size: 1.1rem;">${markdownHtml}</div>
                         <button onclick="like(this)" name=${post.id}>
-                        <div></button>${post.likes}</div>
+                        <div id=${post.id}></button>${post.likes}</div>
                     </div>
                 </div>`;
             }).join('');
@@ -194,6 +194,7 @@ async function loginProfile() {
                 });
 
                 const result = await response.json();
+                document.getElementById('element.name').textContent = result.likes;
 
             }
             catch (error) {

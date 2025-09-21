@@ -169,7 +169,7 @@ def like():
                 (json.dumps(users_liked), post_id)
             )
             connection.commit()
-            return jsonify({"success": True})
+            return jsonify({"success": True, "likes": len(users_liked)})
 
         # User already liked the post
         return jsonify({"success": False, "message": "Already liked"})
