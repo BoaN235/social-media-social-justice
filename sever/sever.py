@@ -145,8 +145,8 @@ def data_from_id():
     else:
         return jsonify({'message': 'Profile not found', 'data': None}), 404
 
-@app.route('/like_post', methods=['POST'])
-def like_post():
+@app.route('/likes', methods=['POST'])
+def like():
     data = request.get_json()
     post_id = data.get('id')
     user_id = data.get('user_id')
