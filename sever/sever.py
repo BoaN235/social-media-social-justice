@@ -1,6 +1,7 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import json
 
 
 app = Flask(__name__)
@@ -144,10 +145,41 @@ def data_from_id():
     else:
         return jsonify({'message': 'Profile not found', 'data': None}), 404
 
+@app.route('/like_post', methods=['POST'])
+def like_post():
+    data = request.get_json()
+    post_id = data.get('id')
+    user_id = data.get('user_id')
+
+    try:
+        # Fetch current UsersLiked for the post
+        cursor.execute('SELECT UsersLiked FROM Posts WHERE PostID = %s', (post_id,))
+        result = cursor.fetchone()
+
+        # Convert to list
+        users_liked = json.loads(result[0]) if result and result[0] else []
+
+        # Only add if user hasn't liked it yet
+        if user_id not in users_liked:
+            users_liked.append(user_id)
+
+            # Update UsersLiked column
+            cursor.execute(
+                'UPDATE Posts SET UsersLiked = %s, Likes = Likes + 1 WHERE PostID = %s',
+                (json.dumps(users_liked), post_id)
+            )
+            connection.commit()
+            return jsonify({"success": True})
+
+        # User already liked the post
+        return jsonify({"success": False, "message": "Already liked"})
+
+    except mysql.connector.Error as err:
+        print(f"Error liking post: {err}")
+        return jsonify({"success": False, "error": str(err)})
 
 
 
 if __name__ == '__main__':
-    # Start ngrok tunnel on Flask’s port i m m d 
     port = 5000
     app.run(port=port, debug=True)

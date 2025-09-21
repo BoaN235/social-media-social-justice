@@ -58,8 +58,8 @@ async function fetchPosts() {
                             </div>
                         </div>
                         <div class="card-text" style="font-size: 1.1rem;">${markdownHtml}</div>
-
-                        <div>${post.likes}</div>
+                        
+                        <div><button onclick="like(this)" name=${post.id}></button>${post.likes}</div>
                     </div>
                 </div>`;
             }).join('');
@@ -180,3 +180,23 @@ async function loginProfile() {
             document.getElementById('loginLogoutBtn').textContent = 'Login';
           }
         });
+
+        like(element) 
+        {
+            data = {"id": element.name, "user_id": document.cookie.split('=')[1]}
+            try {
+                const response = await fetch('http://127.0.0.1:5000/likes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+            }
+            catch (error) {
+                console.log(`Fetch error: ${error}`);
+            }
+        }
